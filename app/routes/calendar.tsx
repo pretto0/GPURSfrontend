@@ -6,12 +6,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useState } from 'react';
 
 import { mockUsers, mockAppointments } from '~/data/mock';
-const apiUrl = process.env.API_URL;
 
 export async function loader() {
 
     // console.log(`${apiUrl}/schedule`)
     // console.log(mockUsers)
+    const apiUrl = process.env.API_URL;
+    // console.log(apiUrl)
     const scheduleResponse = await fetch(`${apiUrl}/schedule`);
     const scheduleData = await scheduleResponse.json();
 
@@ -22,13 +23,13 @@ export async function loader() {
     return {
       appointments: scheduleData.data,
       users: userData.data,
+      apiUrl,
     };
    }
 
 export default function Calendar() {
-  const apiUrl = process.env.API_URL
-//   const apiUrl = process.env.API_URL || 'http://localhost:8080';
-  const {appointments,users } = useLoaderData<typeof loader>();
+
+  const {appointments,users,apiUrl } = useLoaderData<typeof loader>();
   const [events, setEvents] = useState(appointments);
 
 
